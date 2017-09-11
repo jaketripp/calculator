@@ -15,16 +15,17 @@ body {
 	width: 95%;
 	text-align: right;
 	margin: 5px auto;
-	padding-left: 20px;
-	padding-right: 20px;
+	padding: 20px;
+}
+
+.label #chain {
+	font-size: 1.618rem;
 }
 
 .ui.raised.segment {
 	margin: 10px auto;
 	width: 400px;
 	max-width: 95%;
-	/*height: auto;
-	max-height: 85%;*/
 	background-color: #333;
 }
 
