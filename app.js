@@ -15,9 +15,24 @@ function reset(){
 	$('label').text('0');
 }
 
+// remove one thing from the chain
+function backspace(){
+	var text = $('label').text();
+	if (text.length === 1) {
+		$('label').text('0');
+	} else {
+		text = text.substring(0, text.length - 1);
+		$('label').text(text);
+	}
+}
+
 function clickEvents(){
 	$('#reset').on('click', function(e){
 		reset();
+	});
+
+	$('#backspace').on('click', function(e){
+		backspace();
 	});
 
 	$('.ui.green.button').on('click', function(e){
@@ -33,7 +48,7 @@ function clickEvents(){
 			// show semantic (copied type message) saying 'max of 8 digits'
 			// or get users attention somehow?
 		}
-	})
+	});
 }
 
 clickEvents();
