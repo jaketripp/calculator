@@ -13,16 +13,18 @@ body {
 	font-family: 'Orbitron', sans-serif;
 	font-size: 4.236rem;
 	width: 95%;
-	text-align: center;
+	text-align: right;
 	margin: 5px auto;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 .ui.raised.segment {
 	margin: 10px auto;
 	width: 400px;
 	max-width: 95%;
-	height: auto;
-	max-height: 85%;
+	/*height: auto;
+	max-height: 85%;*/
 	background-color: #333;
 }
 
