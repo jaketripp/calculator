@@ -49,6 +49,10 @@ function clickEvents(){
 			// or get users attention somehow?
 		}
 	});
+
+	$('.ui.blue.button').on('click', function(e){
+		$('label').text($(this).text());
+	});
 }
 
 clickEvents();
