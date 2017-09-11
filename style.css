@@ -1,0 +1,87 @@
+html {
+	font-size:8px;
+}
+
+body {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.ui.basic.label {
+	font-family: 'Orbitron', sans-serif;
+	font-size: 4.236rem;
+	width: 95%;
+	text-align: center;
+	margin: 5px;
+}
+
+.ui.container {
+	align-items: center;
+}
+
+.ui.raised.segment {
+	margin: 10px auto;
+	width: 400px;
+	max-width: 95%;
+	height: auto;
+	max-height: 85%;
+}
+
+.columns {
+	display: flex;
+	margin: 10px 5px;
+}
+
+.leftColumn {
+	width: 50%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.leftColumn > * {
+	flex: 1 1 40%;
+}
+
+.ui.button {
+	margin: 5px;
+}
+.rightColumn {
+	width: 50%;
+	display: flex;
+	flex-flow: column wrap;
+}
+
+.rightColumn > * {
+	flex: 1 1 17%;
+}
+
+
+/*
+* { background-color: rgba(255,0,0,0.3);}
+* * { background-color: rgba(0,255,0,0.3);}
+* * * { background-color: rgba(0,0,255,0.3);}
+* * * * { background-color: rgba(255,0,0,0.3);}
+* * * * * { background-color: rgba(0,255,0,0.3);}
+*/
+
+@media (min-width: 400px){
+	html {
+		font-size: 10px;
+	}
+}
+
+@media (min-width: 800px){
+	html {
+		font-size: 12px;
+	}
+}
+
+@media (min-width: 1000px){
+	html {
+		font-size: 12px;
+	}
+}
+ 
