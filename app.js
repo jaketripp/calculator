@@ -46,6 +46,9 @@ function dynamicDecimals(num){
 	// find the difference between the maxDigits and the length of it (including decimal)
 	// return (num).toFixed(diff)
 	var rounded = Math.round(num);
+	if (rounded === num){
+		return num;
+	}
 	var str = (rounded).toString();
 	var length = str.length;
 	if (length > maxDigits) {
@@ -140,9 +143,16 @@ function operatorButtonDOM(buttonClicked){
 	}	
 }
 
+
+// ['123', '+' '3', '', '', ]
 function equalsButtonCalc(){
 	calcChain = DOMChain.split(' ');
-	result = calcChain[0]
+	result = calcChain[0];
+	var i = 1;
+	calcChain.filter(function(item){
+		return item !== '';
+	})
+
 	for (var i = 1; i < calcChain.length; i+=2){
 		var x = calcChain[i];
 		if (isOperatorSymbol(x)){
@@ -155,7 +165,13 @@ function equalsButtonDOM(){
 	$('#screen').text(result);
 	var text = $('#chain').text();
 	$('#chain').text(text + result);
+}
 
+function removeEqualsChainedOperator(){
+	if (DOMChain.substring(DOMChain.length - 3) === ' = '){
+		// remove the spaces and equals sign
+		DOMChain = DOMChain.substring(0, DOMChain.length - 3); 
+	}
 }
 
 
@@ -173,6 +189,7 @@ function clickEvents(){
 	});
 
 	$('.ui.blue.button').on('click', function(e){
+		removeEqualsChainedOperator();
 		operatorButtonDOM($(this));
 
 	});
