@@ -84,6 +84,20 @@ function backspaceDOM(){
 	}
 }
 
+// CE button
+function clearCurrentScreen(){
+	$('#screen').text('0');
+	// iterate through #chain, find the last operator, remove everything after the space after it
+	var lastOperatorPosition = 0;
+	for (var i = 0; i < DOMChain.length; i++){
+		if (isOperatorSymbol(DOMChain[i])){
+			lastOperatorPosition = i;
+		}
+	}
+	DOMChain = DOMChain.substring(0, lastOperatorPosition + 2);
+	$('#chain').text(DOMChain || '0');
+}
+
 function maxDigitsPopup(){
 	$('.label').popup({on: 'manual'});
 	$('.label').popup('show');
@@ -182,6 +196,10 @@ function clickEvents(){
 
 	$('#backspace').on('click', function(e){
 		backspaceDOM();
+	});
+
+	$('#clearScreen').on('click', function(e){
+		clearCurrentScreen();
 	});
 
 	$('.ui.green.button').on('click', function(e){
