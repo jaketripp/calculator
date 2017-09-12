@@ -46,7 +46,7 @@ function maxDigitsPopup(){
 	$('.label').popup('show');
 	setTimeout(function() {
         $('.label').popup('hide');
-    }, 1000)
+    }, 1500)
 
 }
 
