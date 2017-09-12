@@ -2,19 +2,23 @@ html {
 	font-size:8px;
 }
 
-body {
+/*body {
 	text-align: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 }
+*/
+.ui.container {
+	margin-top: 50px;
+}
 
 .ui.basic.label {
 	font-family: 'Orbitron', sans-serif;
 	font-size: 4.236rem;
-	width: 95%;
+	width: 98%;
 	text-align: right;
-	margin: 5px auto;
+	margin: 5px 1.0%;
 	padding: 20px;
 }
 
@@ -23,7 +27,7 @@ body {
 }
 
 .ui.raised.segment {
-	margin: 10px auto;
+	margin: 0px auto;
 	width: 400px;
 	max-width: 95%;
 	background-color: #333;
@@ -37,6 +41,7 @@ footer {
 	height: auto;
 	color: #333;
 	font-size: 2.618rem;
+	text-align: center;
 }
 
 .buttons {
