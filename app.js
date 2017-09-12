@@ -3,13 +3,8 @@
 // =========
 
 var DOMChain = '';
-// instead of dealing with dumb things, make it an array, push numbers to it 
-// then iterate through it
-// use isOperatorSymbol(arr[i])
-// split up the DOM Chain by SPACES. WOW THAT WORKED OUT WELL
-var calcChain = [];;
+var calcChain = [];
 var result;
-
 var maxDigits = 8;
 
 // ===================
@@ -25,34 +20,36 @@ function isOperatorSymbol(x){
 	}
 }
 
-// takes in two str numbers and a str operator ('/', '+', '-', '*')
+// takes in two string numbers ('1') and a str operator ('/', '+', '-', '*')
 // always run isOperatorSymbol first to make sure that it is an operator
 function applyOperator(num1, strOperator, num2){
+	num1 = Number(num1);
+	num2 = Number(num2);
+
 	if (strOperator === '/'){
-		return Number(num1) / Number(num2);
+		return num1 / num2;
 	} else if (strOperator === '+'){
-		return Number(num1) + Number(num2);
+		return num1 + num2;
 	} else if (strOperator === '-'){
-		return Number(num1) - Number(num2);
+		return num1 - num2;
 	} else if (strOperator === '*'){
-		return Number(num1) * Number(num2);
+		return num1 * num2;
 	}
 }
 
+// prevents the numbers from being too long, displays message and resets DOM if needed
+// only shows decimal if it needs to
 function dynamicDecimals(num){
-	// store the number as var rounded
-	// convert to string
-	// find the length of it
-	// find the difference between the maxDigits and the length of it (including decimal)
-	// return (num).toFixed(diff)
 	var rounded = Math.round(num);
-	if (rounded === num){
-		return num;
-	}
 	var str = (rounded).toString();
 	var length = str.length;
 	if (length > maxDigits) {
 		maxDigitsPopup();
+		resetDOM();
+	} else {
+		if (rounded === num){
+			return num;
+		}
 	}
 	var diff = maxDigits - length;
 	return (num).toFixed(diff);
@@ -62,7 +59,6 @@ function dynamicDecimals(num){
 // MAIN FUNCTIONS
 // ==============
 
-// however you store the DOMChain, reset it here
 function resetDOM(){
 	DOMChain = '';
 	$('#screen').text('0');
@@ -70,7 +66,6 @@ function resetDOM(){
 }
 
 // remove one thing from the DOMChain
-// fix #DOM
 function backspaceDOM(){
 	var text = $('#screen').text();
 	if (text.length === 1) {
@@ -84,72 +79,62 @@ function backspaceDOM(){
 	}
 }
 
-// CE button
+// CE button clear screen
 function clearCurrentScreen(){
 	$('#screen').text('0');
-	// iterate through #chain, find the last operator, remove everything after the space after it
+	// iterate through #chain, find the last operator, remove it
 	var lastOperatorPosition = 0;
 	for (var i = 0; i < DOMChain.length; i++){
 		if (isOperatorSymbol(DOMChain[i])){
 			lastOperatorPosition = i;
 		}
 	}
-	DOMChain = DOMChain.substring(0, lastOperatorPosition + 2);
+	DOMChain = DOMChain.substring(0, lastOperatorPosition - 1);
 	$('#chain').text(DOMChain || '0');
 }
 
+// timed semantic popup
 function maxDigitsPopup(){
 	$('.label').popup({on: 'manual'});
 	$('.label').popup('show');
 	setTimeout(function() {
         $('.label').popup('hide');
-    }, 1500)
+    }, 2000)
 
 }
 
 function numberButtonDOM(buttonClicked){
 	var labelText = $('#screen').text();
+	// remove 0 before appending number
 	if (labelText === '0'){
 		DOMChain = '';
 		$('#screen').text('');
 		labelText = $('#screen').text();		
-	} 
+	}
+	// clear screen when pressing operator
 	if (isOperatorSymbol(labelText)){
 		$('#screen').text('');
 		labelText = $('#screen').text();
 	}
+	// add things to screen as long as there aren't too many
 	if (labelText.length < maxDigits){
 		var value = buttonClicked.text();
 		$('#screen').text(labelText += value);
 		DOMChain += value;
 		$('#chain').text(DOMChain);
-	// exceed max digits (maxDigits)
-	} else {
-		maxDigitsPopup();
-	}
-}
-
-function numberButtonCalc(buttonClicked){
-	var labelText = $('#screen').text();
-	if (labelText === '0' || isOperatorSymbol(labelText)){
-		$('#screen').text('');
-		labelText = $('#screen').text();
-	}
-	if (labelText.length < maxDigits){
-		var value = buttonClicked.text();
-		$('#screen').text(labelText += value);
-		DOMChain += value;
-		$('#chain').text(DOMChain);
-	// exceed max digits (maxDigits)
+	// otherwise display message - exceed max digits
 	} else {
 		maxDigitsPopup();
 	}
 }
 
 function operatorButtonDOM(buttonClicked){
-	if (DOMChain.length > 1){
+	// don't allow operators before a number
+	// use the chain instead of the screen because screen gets cleared a lot
+	if ($('#chain').text() !== '0'){
 		var value = buttonClicked.text()
 		$('#screen').text(value);
+		// add spaces so it wraps correctly (and serendipitously to split into an array to iterate on)
 		DOMChain += ' ';
 		DOMChain += value;
 		DOMChain += ' ';
@@ -157,8 +142,7 @@ function operatorButtonDOM(buttonClicked){
 	}	
 }
 
-
-// ['123', '+' '3', '', '', ]
+// calculate the result and set it
 function equalsButtonCalc(){
 	calcChain = DOMChain.split(' ');
 	result = calcChain[0];
@@ -181,13 +165,13 @@ function equalsButtonDOM(){
 	$('#chain').text(text + result);
 }
 
+// remove equals sign if they press an operator after pressing equals
 function removeEqualsChainedOperator(){
 	if (DOMChain.substring(DOMChain.length - 3) === ' = '){
 		// remove the spaces and equals sign
 		DOMChain = DOMChain.substring(0, DOMChain.length - 3); 
 	}
 }
-
 
 function clickEvents(){
 	$('#reset').on('click', function(e){
@@ -219,10 +203,3 @@ function clickEvents(){
 }
 
 clickEvents();
-
-// have a result variable that will have the final result
-// have a currentOperation that will store what the current operation is (because it's sandwiched between 2 numbers)
-// when you press an operation (blue button), if the last thing on the screen is an operation and a space, then replace that operation with the new one
-// after you press a blue button, use parseInt to figure out what the number is
-
-// have function to parse #chain and remove = signs if they keep chaining things on
