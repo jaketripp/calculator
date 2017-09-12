@@ -70,7 +70,9 @@ function numberButtonDOM(buttonClicked){
 function operatorButtonDOM(buttonClicked){
 	var value = buttonClicked.text()
 	$('#screen').text(value);
+	chain += ' ';
 	chain += value;
+	chain += ' ';
 	$('#chain').text(chain);	
 }
 

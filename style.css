@@ -2,13 +2,6 @@ html {
 	font-size:8px;
 }
 
-/*body {
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-*/
 .ui.container {
 	margin-top: 50px;
 }
@@ -93,13 +86,13 @@ footer {
 
 @media (min-width: 800px){
 	html {
-		font-size: 12px;
+		font-size: 11.5px;
 	}
 }
 
 @media (min-width: 1000px){
 	html {
-		font-size: 12px;
+		font-size: 11.5px;
 	}
 }
  
