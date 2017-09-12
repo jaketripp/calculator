@@ -70,6 +70,28 @@ function maxDigitsPopup(){
 
 function numberButtonDOM(buttonClicked){
 	var labelText = $('#screen').text();
+	if (labelText === '0'){
+		DOMChain = '';
+		$('#screen').text('');
+		labelText = $('#screen').text();		
+	} 
+	if (isOperatorSymbol(labelText)){
+		$('#screen').text('');
+		labelText = $('#screen').text();
+	}
+	if (labelText.length < 8){
+		var value = buttonClicked.text();
+		$('#screen').text(labelText += value);
+		DOMChain += value;
+		$('#chain').text(DOMChain);
+	// exceed max digits (8)
+	} else {
+		maxDigitsPopup();
+	}
+}
+
+function numberButtonCalc(buttonClicked){
+	var labelText = $('#screen').text();
 	if (labelText === '0' || isOperatorSymbol(labelText)){
 		$('#screen').text('');
 		labelText = $('#screen').text();
@@ -86,12 +108,14 @@ function numberButtonDOM(buttonClicked){
 }
 
 function operatorButtonDOM(buttonClicked){
-	var value = buttonClicked.text()
-	$('#screen').text(value);
-	DOMChain += ' ';
-	DOMChain += value;
-	DOMChain += ' ';
-	$('#chain').text(DOMChain);	
+	if (DOMChain.length > 1){
+		var value = buttonClicked.text()
+		$('#screen').text(value);
+		DOMChain += ' ';
+		DOMChain += value;
+		DOMChain += ' ';
+		$('#chain').text(DOMChain);
+	}	
 }
 
 function equalsButtonDOM(){
@@ -116,6 +140,7 @@ function clickEvents(){
 
 	$('.ui.blue.button').on('click', function(e){
 		operatorButtonDOM($(this));
+
 	});
 
 	$('#equals').on('click', function(e){
