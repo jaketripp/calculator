@@ -41,6 +41,46 @@ function backspace(){
 	}
 }
 
+function maxDigitsPopup(){
+	$('.label').popup({on: 'manual'});
+	$('.label').popup('show');
+	setTimeout(function() {
+        $('.label').popup('hide');
+    }, 1000)
+
+}
+
+function numberButtonDOM(buttonClicked){
+	var labelText = $('#screen').text();
+	if (labelText === '0' || isOperatorSymbol(labelText)){
+		$('#screen').text('');
+		labelText = $('#screen').text();
+	}
+	if (labelText.length < 8){
+		var value = buttonClicked.text();
+		$('#screen').text(labelText += value);
+		chain += value;
+		$('#chain').text(chain);
+	// exceed max digits (8)
+	} else {
+		maxDigitsPopup();
+	}
+}
+
+function operatorButtonDOM(buttonClicked){
+	var value = buttonClicked.text()
+	$('#screen').text(value);
+	chain += value;
+	$('#chain').text(chain);	
+}
+
+function equalsButtonDOM(){
+	// var currentChain = $('#chain').text();
+	// currentChain += evaluateChain();
+	// $('#chain').text(currentChain);
+	$('#screen').text('RESULT'); // currentChain
+}
+
 function clickEvents(){
 	$('#reset').on('click', function(e){
 		reset();
@@ -51,32 +91,16 @@ function clickEvents(){
 	});
 
 	$('.ui.green.button').on('click', function(e){
-		var labelText = $('#screen').text();
-		if (labelText === '0' || isOperatorSymbol(labelText)){
-			$('#screen').text('');
-			labelText = $('#screen').text();
-		}
-		if (labelText.length < 8){
-			var value = $(this).text();
-			$('#screen').text(labelText += value);
-			chain += value;
-			$('#chain').text(chain);
-		} else {
-			// show semantic (copied type message) saying 'max of 8 digits'
-			// or get users attention somehow?
-		}
+		numberButtonDOM($(this));
 	});
 
 	$('.ui.blue.button').on('click', function(e){
-		var value = $(this).text()
-		$('#screen').text(value);
-		chain += value;
-		$('#chain').text(chain);
+		operatorButtonDOM($(this));
 	});
 
-	// $('.equals').on('click', function(e){
-	// 	evaluateChain();
-	// })
+	$('#equals').on('click', function(e){
+		equalsButtonDOM();
+	})
 }
 
 clickEvents();
