@@ -2,7 +2,9 @@
 // VARIABLES
 // =========
 
-var chain = '';
+var DOMChain = '';
+var calcChain;
+var result;
 
 // ===================
 // AUXILIARY FUNCTIONS
@@ -17,27 +19,43 @@ function isOperatorSymbol(x){
 	}
 }
 
+// takes in two numbers and a str operator ('/', '+', '-', '*')
+// always run isOperatorSymbol first to make sure that it is an operator
+function applyOperator(num1, strOperator, num2){
+	if (strOperator === '/'){
+		return num1 / num2;
+	} else if (strOperator === '+'){
+		return num1 + num2;
+	} else if (strOperator === '-'){
+		return num1 - num2;
+	} else if (strOperator === '*'){
+		return num1 * num2;
+	}
+}
 
 // ==============
 // MAIN FUNCTIONS
 // ==============
 
-// however you store the chain, reset it here
-function reset(){
-	chain = '';
+// however you store the DOMChain, reset it here
+function resetDOM(){
+	DOMChain = '';
 	$('#screen').text('0');
 	$('#chain').text('0');
 }
 
-// remove one thing from the chain
-function backspace(){
+// remove one thing from the DOMChain
+// fix #DOM
+function backspaceDOM(){
 	var text = $('#screen').text();
 	if (text.length === 1) {
 		$('#screen').text('0');
+		$('#chain').text('0');
 	} else {
 		text = text.substring(0, text.length - 1);
-		chain = chain.substring(0, chain.length - 1);
+		DOMChain = DOMChain.substring(0, DOMChain.length - 1);
 		$('#screen').text(text);
+		$('#chain').text(text);
 	}
 }
 
@@ -59,8 +77,8 @@ function numberButtonDOM(buttonClicked){
 	if (labelText.length < 8){
 		var value = buttonClicked.text();
 		$('#screen').text(labelText += value);
-		chain += value;
-		$('#chain').text(chain);
+		DOMChain += value;
+		$('#chain').text(DOMChain);
 	// exceed max digits (8)
 	} else {
 		maxDigitsPopup();
@@ -70,26 +88,26 @@ function numberButtonDOM(buttonClicked){
 function operatorButtonDOM(buttonClicked){
 	var value = buttonClicked.text()
 	$('#screen').text(value);
-	chain += ' ';
-	chain += value;
-	chain += ' ';
-	$('#chain').text(chain);	
+	DOMChain += ' ';
+	DOMChain += value;
+	DOMChain += ' ';
+	$('#chain').text(DOMChain);	
 }
 
 function equalsButtonDOM(){
-	// var currentChain = $('#chain').text();
-	// currentChain += evaluateChain();
-	// $('#chain').text(currentChain);
-	$('#screen').text('RESULT'); // currentChain
+	// var currentDOMChain = $('#DOMChain').text();
+	// currentDOMChain += evaluateDOMChain();
+	// $('#DOMChain').text(currentDOMChain);
+	$('#screen').text('RESULT'); // currentDOMChain
 }
 
 function clickEvents(){
 	$('#reset').on('click', function(e){
-		reset();
+		resetDOM();
 	});
 
 	$('#backspace').on('click', function(e){
-		backspace();
+		backspaceDOM();
 	});
 
 	$('.ui.green.button').on('click', function(e){
@@ -106,3 +124,8 @@ function clickEvents(){
 }
 
 clickEvents();
+
+// have a result variable that will have the final result
+// have a currentOperation that will store what the current operation is (because it's sandwiched between 2 numbers)
+// when you press an operation (blue button), if the last thing on the screen is an operation and a space, then replace that operation with the new one
+// after you press a blue button, use parseInt to figure out what the number is
