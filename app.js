@@ -191,9 +191,13 @@ function removeEqualsChainedOperator(){
 // else show max digits popup
 function decimalButtonDOM(buttonClicked){
 	var labelText = $('#screen').text();
+	var chain = $('#chain').text();
 	// remove 0 before appending number
 	if (labelText === '0'){
-		DOMChain = '0.';
+		if (chain !== '0') {
+			DOMChain += '.';	
+		}
+		DOMChain += '0.';	
 		$('#screen').text('0.');
 		labelText = $('#screen').text();		
 	}
