@@ -130,15 +130,25 @@ function numberButtonDOM(buttonClicked){
 
 function operatorButtonDOM(buttonClicked){
 	// don't allow operators before a number
+	// don't allow multiple operators in a row
 	// use the chain instead of the screen because screen gets cleared a lot
 	if ($('#chain').text() !== '0'){
+		var chain = $('#chain').text();
+		var possiblyAnOperator = chain.substring(chain.length - 2, chain.length - 1);
+		// if there is an operator, remove it;
+		if (isOperatorSymbol(possiblyAnOperator)){
+			console.log('farto');
+			DOMChain = DOMChain.substring(0, DOMChain.length - 3);
+		} 
+			
 		var value = buttonClicked.text()
 		$('#screen').text(value);
 		// add spaces so it wraps correctly (and serendipitously to split into an array to iterate on)
 		DOMChain += ' ';
 		DOMChain += value;
 		DOMChain += ' ';
-		$('#chain').text(DOMChain);
+		$('#chain').text(DOMChain);			
+
 	}	
 }
 
@@ -165,11 +175,11 @@ function equalsButtonDOM(){
 	$('#chain').text(text + result);
 }
 
-// remove equals sign if they press an operator after pressing equals
+// if you press an operator button after pressing equals, set DOMChain to result
 function removeEqualsChainedOperator(){
-	if (DOMChain.substring(DOMChain.length - 3) === ' = '){
-		// remove the spaces and equals sign
-		DOMChain = DOMChain.substring(0, DOMChain.length - 3); 
+	var chain = $('#chain').text();
+	if (chain.indexOf('=') !== -1){
+		DOMChain = result;
 	}
 }
 
@@ -186,14 +196,13 @@ function clickEvents(){
 		clearCurrentScreen();
 	});
 
-	$('.ui.green.button').on('click', function(e){
+	$('.numbers').on('click', function(e){
 		numberButtonDOM($(this));
 	});
 
 	$('.ui.blue.button').on('click', function(e){
 		removeEqualsChainedOperator();
 		operatorButtonDOM($(this));
-
 	});
 
 	$('#equals').on('click', function(e){
@@ -203,3 +212,5 @@ function clickEvents(){
 }
 
 clickEvents();
+
+// don't allow multiple decimals
