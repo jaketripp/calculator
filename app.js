@@ -52,7 +52,10 @@ function dynamicDecimals(num){
 		}
 	}
 	var diff = maxDigits - length;
-	return (num).toFixed(diff);
+	// remove zeros if you unnecessarily add them
+	// Number.toFixed() returns a string???? WTF
+	num = Number((num).toFixed(diff));
+	return (num).toString();
 }
 
 // ==============
