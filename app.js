@@ -183,6 +183,41 @@ function removeEqualsChainedOperator(){
 	}
 }
 
+// if there is a 0 at first (by default), keep it
+// if you press decimal after operator, add '0.' to screen and DOMChain
+// if there aren't too many digits
+	// and if there aren't any decimals already
+		// append it like normal
+// else show max digits popup
+function decimalButtonDOM(buttonClicked){
+	var labelText = $('#screen').text();
+	// remove 0 before appending number
+	if (labelText === '0'){
+		DOMChain = '0.';
+		$('#screen').text('0.');
+		labelText = $('#screen').text();		
+	}
+	// clear screen when pressing operator
+	if (isOperatorSymbol(labelText)){
+		$('#screen').text('0.');
+		DOMChain += '0.'
+		labelText = $('#screen').text();
+	}
+	// add things to screen as long as there aren't too many
+	if (labelText.length < maxDigits){
+		// make sure there are no decimals already
+		if (labelText.indexOf('.') === -1){		
+			var value = buttonClicked.text();
+			$('#screen').text(labelText += value);
+			DOMChain += value;
+			$('#chain').text(DOMChain);
+		}
+	// otherwise display message - exceed max digits
+	} else {
+		maxDigitsPopup();
+	}
+}
+
 function clickEvents(){
 	$('#reset').on('click', function(e){
 		resetDOM();
@@ -208,9 +243,15 @@ function clickEvents(){
 	$('#equals').on('click', function(e){
 		equalsButtonCalc();
 		equalsButtonDOM();
-	})
+	});
+
+	$('#decimal').on('click', function(e){
+		decimalButtonDOM($(this));
+	});
+
+
 }
 
 clickEvents();
 
-// don't allow multiple decimals
+// fix dynamic decimals to go through and if it counts 4 (?) 0s in a row after the decimal, then remove everything after the first 0
